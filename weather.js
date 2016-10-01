@@ -11,7 +11,6 @@ var hours         = "";
 var minutes       = "";
 var seconds       = "";
 var formattedTime = "";
-var greet         = "";
 
 /**
  * Convert UNIX timestamp to time
@@ -32,7 +31,7 @@ var theTime = function( time ) {
 	// Will display time in 10:30:23 format
 	formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
 
-	return time;
+	return formattedTime;
 }
 
 /**
@@ -41,6 +40,7 @@ var theTime = function( time ) {
  * @return time string
  */
 var sunTime = function( time, currentTime ) {
+
 	if( hours <= 12 ) {
 
 		var time = "The sunrise is at " + formattedTime + " AM.";
@@ -63,21 +63,31 @@ var sunTime = function( time, currentTime ) {
  */
 var currentWeather = function( temp, wind, user, currentTime ) {
 
-	var ct = theTime( currentTime );
+	var ct = function( currentTime ) {
 
-	if( ct <= 11  ) {
+		date = new Date( currentTime * 1000 );
+		hours = date.getHours();
+
+		return hours;
+
+	}
+
+	var num   = ct( currentTime );
+	var greet = "";
+
+	if( num < 12  ) {
 
 		greet = "Good Morning, ";
 
 	}
 
-	if( ct >= 16 ) {
+	if( num > 11 && num < 17 ) {
 
 		greet = "Good afternoon, ";
 
 	}
 
-	if( ct > 16 ) {
+	if( num > 16 ) {
 
 		greet = "Good evening, ";
 
